@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A52F978F18E7483800298192 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = A52F978D18E7483800298192 /* Default.png */; };
+		A52F979018E7483800298192 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A52F978E18E7483800298192 /* Default@2x.png */; };
+		A57A31F018E7A10F000AEA13 /* MNMixingBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A57A31EF18E7A10F000AEA13 /* MNMixingBoardViewController.m */; };
 		A5E7F3FF18E72B6D005E23A3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E7F3FE18E72B6D005E23A3 /* Foundation.framework */; };
 		A5E7F40118E72B6D005E23A3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E7F40018E72B6D005E23A3 /* CoreGraphics.framework */; };
 		A5E7F40318E72B6D005E23A3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E7F40218E72B6D005E23A3 /* UIKit.framework */; };
@@ -21,6 +24,13 @@
 		A5E7F42018E72B6E005E23A3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E7F40218E72B6D005E23A3 /* UIKit.framework */; };
 		A5E7F42818E72B6F005E23A3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5E7F42618E72B6F005E23A3 /* InfoPlist.strings */; };
 		A5E7F42A18E72B6F005E23A3 /* MusicNetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5E7F42918E72B6F005E23A3 /* MusicNetTests.m */; };
+		A5E7F43518E72D2D005E23A3 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A5E7F43318E72D2D005E23A3 /* Icon.png */; };
+		A5E7F43618E72D2D005E23A3 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A5E7F43418E72D2D005E23A3 /* Icon@2x.png */; };
+		A5E7F43818E72F65005E23A3 /* WelcomeBG.png in Resources */ = {isa = PBXBuildFile; fileRef = A5E7F43718E72F65005E23A3 /* WelcomeBG.png */; };
+		A5E7F43A18E732A6005E23A3 /* avatar.png in Resources */ = {isa = PBXBuildFile; fileRef = A5E7F43918E732A6005E23A3 /* avatar.png */; };
+		A5E7F43C18E73378005E23A3 /* Actions-insert-image-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A5E7F43B18E73378005E23A3 /* Actions-insert-image-icon.png */; };
+		A5E7F43E18E7347F005E23A3 /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = A5E7F43D18E7347F005E23A3 /* button.png */; };
+		A5E7F44118E73662005E23A3 /* MNLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5E7F44018E73662005E23A3 /* MNLoginViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +44,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A52F978D18E7483800298192 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		A52F978E18E7483800298192 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		A57A31EE18E7A10F000AEA13 /* MNMixingBoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MNMixingBoardViewController.h; sourceTree = "<group>"; };
+		A57A31EF18E7A10F000AEA13 /* MNMixingBoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MNMixingBoardViewController.m; sourceTree = "<group>"; };
 		A5E7F3FB18E72B6D005E23A3 /* MusicNet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicNet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5E7F3FE18E72B6D005E23A3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A5E7F40018E72B6D005E23A3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -53,6 +67,14 @@
 		A5E7F42518E72B6F005E23A3 /* MusicNetTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MusicNetTests-Info.plist"; sourceTree = "<group>"; };
 		A5E7F42718E72B6F005E23A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A5E7F42918E72B6F005E23A3 /* MusicNetTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusicNetTests.m; sourceTree = "<group>"; };
+		A5E7F43318E72D2D005E23A3 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		A5E7F43418E72D2D005E23A3 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		A5E7F43718E72F65005E23A3 /* WelcomeBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WelcomeBG.png; sourceTree = "<group>"; };
+		A5E7F43918E732A6005E23A3 /* avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatar.png; sourceTree = "<group>"; };
+		A5E7F43B18E73378005E23A3 /* Actions-insert-image-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Actions-insert-image-icon.png"; sourceTree = "<group>"; };
+		A5E7F43D18E7347F005E23A3 /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
+		A5E7F43F18E73662005E23A3 /* MNLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MNLoginViewController.h; sourceTree = "<group>"; };
+		A5E7F44018E73662005E23A3 /* MNLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MNLoginViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,8 +137,20 @@
 				A5E7F40D18E72B6E005E23A3 /* MNAppDelegate.h */,
 				A5E7F40E18E72B6E005E23A3 /* MNAppDelegate.m */,
 				A5E7F41018E72B6E005E23A3 /* Main.storyboard */,
+				A57A31EE18E7A10F000AEA13 /* MNMixingBoardViewController.h */,
+				A57A31EF18E7A10F000AEA13 /* MNMixingBoardViewController.m */,
+				A5E7F43F18E73662005E23A3 /* MNLoginViewController.h */,
+				A5E7F44018E73662005E23A3 /* MNLoginViewController.m */,
 				A5E7F41318E72B6E005E23A3 /* MNViewController.h */,
 				A5E7F41418E72B6E005E23A3 /* MNViewController.m */,
+				A5E7F43318E72D2D005E23A3 /* Icon.png */,
+				A5E7F43418E72D2D005E23A3 /* Icon@2x.png */,
+				A5E7F43918E732A6005E23A3 /* avatar.png */,
+				A52F978D18E7483800298192 /* Default.png */,
+				A52F978E18E7483800298192 /* Default@2x.png */,
+				A5E7F43D18E7347F005E23A3 /* button.png */,
+				A5E7F43B18E73378005E23A3 /* Actions-insert-image-icon.png */,
+				A5E7F43718E72F65005E23A3 /* WelcomeBG.png */,
 				A5E7F41618E72B6E005E23A3 /* Images.xcassets */,
 				A5E7F40518E72B6E005E23A3 /* Supporting Files */,
 			);
@@ -229,9 +263,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5E7F43518E72D2D005E23A3 /* Icon.png in Resources */,
+				A5E7F43C18E73378005E23A3 /* Actions-insert-image-icon.png in Resources */,
+				A5E7F43A18E732A6005E23A3 /* avatar.png in Resources */,
+				A5E7F43818E72F65005E23A3 /* WelcomeBG.png in Resources */,
 				A5E7F41718E72B6E005E23A3 /* Images.xcassets in Resources */,
+				A52F979018E7483800298192 /* Default@2x.png in Resources */,
 				A5E7F40918E72B6E005E23A3 /* InfoPlist.strings in Resources */,
 				A5E7F41218E72B6E005E23A3 /* Main.storyboard in Resources */,
+				A5E7F43E18E7347F005E23A3 /* button.png in Resources */,
+				A5E7F43618E72D2D005E23A3 /* Icon@2x.png in Resources */,
+				A52F978F18E7483800298192 /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,7 +292,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A57A31F018E7A10F000AEA13 /* MNMixingBoardViewController.m in Sources */,
 				A5E7F40B18E72B6E005E23A3 /* main.m in Sources */,
+				A5E7F44118E73662005E23A3 /* MNLoginViewController.m in Sources */,
 				A5E7F41518E72B6E005E23A3 /* MNViewController.m in Sources */,
 				A5E7F40F18E72B6E005E23A3 /* MNAppDelegate.m in Sources */,
 			);
@@ -380,6 +424,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MusicNet/MusicNet-Prefix.pch";
 				INFOPLIST_FILE = "MusicNet/MusicNet-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -393,6 +438,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MusicNet/MusicNet-Prefix.pch";
 				INFOPLIST_FILE = "MusicNet/MusicNet-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -457,6 +503,7 @@
 				A5E7F42F18E72B6F005E23A3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A5E7F43018E72B6F005E23A3 /* Build configuration list for PBXNativeTarget "MusicNetTests" */ = {
 			isa = XCConfigurationList;
@@ -465,6 +512,7 @@
 				A5E7F43218E72B6F005E23A3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

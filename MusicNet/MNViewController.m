@@ -14,6 +14,10 @@
 
 @implementation MNViewController
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    NSLog([segue identifier]);
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
