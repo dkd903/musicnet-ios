@@ -43,8 +43,9 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     //if user is already logged in then skip to welcome
-    if (1) {
-        //[self performSegueWithIdentifier:@"MusicNetWelcomeTo" sender:self];
+    //read token from local store
+    if (0) {
+        [self performSegueWithIdentifier:@"MusicNetWelcomeTo" sender:self];
     }
 }
 
@@ -81,7 +82,10 @@
         [newAlert show];
     } else {
         [_activityIndicator startAnimating];
-        //[self performSegueWithIdentifier:@"MusicNetWelcomeTo" sender:self];
+        //API Calls
+        //save token
+        //on success move ahead
+        [self performSegueWithIdentifier:@"MusicNetWelcomeTo" sender:self];
     }
     
 }
