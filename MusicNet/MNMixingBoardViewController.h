@@ -10,4 +10,12 @@
 
 @interface MNMixingBoardViewController : UIViewController
 
+@property (weak, nonatomic) NSString *mntoken;
+- (IBAction)sendMixingBoard:(id)sender;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mixingBoardIndicator;
+- (IBAction)mixingBoardSlider:(id)sender;
+@property (weak, nonatomic) IBOutlet UISlider *mixingBoardSliderValue;
+@property (weak, nonatomic) IBOutlet UILabel *mixingBoardValueLabel;
+
+
 @end

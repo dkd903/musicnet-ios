@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define kMNapiUrl @"http://digitizormedia.com/dev/mn/index.php"
+
 @interface MNLoginViewController : UIViewController
 - (IBAction)loginClicked:(id)sender;
 - (IBAction)textFieldReturn:(id)sender;

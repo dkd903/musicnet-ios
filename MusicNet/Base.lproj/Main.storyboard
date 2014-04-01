@@ -131,7 +131,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hP2-Yg-KOs">
-                                <rect key="frame" x="115" y="257" width="91" height="30"/>
+                                <rect key="frame" x="115" y="264" width="91" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Mixing Board">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -140,21 +140,34 @@
                                     <segue destination="4kG-qg-StP" kind="push" identifier="MixingBoard" id="hZw-yq-uNg"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="saA-6U-dMZ">
+                                <rect key="frame" x="137" y="320" width="49" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Logout">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="logoutClicked:" destination="12Z-Ve-VED" eventType="touchUpInside" id="fny-aU-md7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Welcome" id="ior-8C-xVx">
                         <barButtonItem key="backBarButtonItem" title=" " id="vg5-gY-V3C"/>
                     </navigationItem>
+                    <connections>
+                        <segue destination="8Df-2M-4Yq" kind="modal" identifier="MusicNetLogin" modalTransitionStyle="flipHorizontal" id="Gw2-lP-I5B"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JXP-6I-5KU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="671" y="533"/>
         </scene>
-        <!--View Controller - Cast a Vote-->
+        <!--Vote View Controller - Cast a Vote-->
         <scene sceneID="f9G-R6-KSV">
             <objects>
-                <viewController title="Cast a Vote" id="vnN-M5-A7F" sceneMemberID="viewController">
+                <viewController title="Cast a Vote" id="vnN-M5-A7F" customClass="MNVoteViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="oPM-L4-wXg"/>
                         <viewControllerLayoutGuide type="bottom" id="Rpq-sW-CfZ"/>
@@ -180,10 +193,10 @@
             </objects>
             <point key="canvasLocation" x="1754" y="-249"/>
         </scene>
-        <!--View Controller - Answer a Question-->
+        <!--Answer View Controller - Answer a Question-->
         <scene sceneID="8os-Do-CtE">
             <objects>
-                <viewController title="Answer a Question" id="Obu-CG-raY" sceneMemberID="viewController">
+                <viewController title="Answer a Question" id="Obu-CG-raY" customClass="MNAnswerViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="C9F-bf-ZFf"/>
                         <viewControllerLayoutGuide type="bottom" id="haF-Cs-Yxn"/>
@@ -227,10 +240,10 @@
             </objects>
             <point key="canvasLocation" x="1238" y="-249"/>
         </scene>
-        <!--View Controller - Record a Pulse-->
+        <!--Pulse View Controller - Record a Pulse-->
         <scene sceneID="lrU-gY-0IB">
             <objects>
-                <viewController title="Record a Pulse" id="r1J-iW-tGb" sceneMemberID="viewController">
+                <viewController title="Record a Pulse" id="r1J-iW-tGb" customClass="MNPulseViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ohs-Gq-tCW"/>
                         <viewControllerLayoutGuide type="bottom" id="xIG-RJ-rHa"/>
@@ -274,27 +287,58 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="KDa-0L-lG9">
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="KDa-0L-lG9">
                                 <rect key="frame" x="63" y="173" width="195" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="mixingBoardSlider:" destination="4kG-qg-StP" eventType="valueChanged" id="SzG-yB-qnK"/>
+                                </connections>
                             </slider>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oX9-GX-KXV">
-                                <rect key="frame" x="137" y="252" width="36" height="30"/>
+                                <rect key="frame" x="142" y="269" width="36" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Send">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="sendMixingBoard:" destination="4kG-qg-StP" eventType="touchUpInside" id="n6D-Ci-V3t"/>
+                                </connections>
                             </button>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="OS2-R6-5dr">
-                                <rect key="frame" x="150" y="301" width="20" height="20"/>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="OS2-R6-5dr">
+                                <rect key="frame" x="150" y="328" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pzo-1N-sak">
+                                <rect key="frame" x="47" y="177" width="10" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="10" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ffF-3f-Lbw">
+                                <rect key="frame" x="264" y="177" width="20" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Current Value: 3" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QeI-38-ahf">
+                                <rect key="frame" x="104" y="211" width="123" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Mixing Board" id="j5X-dE-bPc">
                         <barButtonItem key="backBarButtonItem" title=" " id="lJC-2M-BOm"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="mixingBoardIndicator" destination="OS2-R6-5dr" id="3HA-hi-55v"/>
+                        <outlet property="mixingBoardSliderValue" destination="KDa-0L-lG9" id="1ya-1p-z8b"/>
+                        <outlet property="mixingBoardValueLabel" destination="QeI-38-ahf" id="rVN-4s-J05"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b7w-Xn-myr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

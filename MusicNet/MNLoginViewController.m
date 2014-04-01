@@ -44,7 +44,18 @@
 - (void)viewDidAppear:(BOOL)animated {
     //if user is already logged in then skip to welcome
     //read token from local store
-    if (0) {
+    [super viewDidAppear:TRUE];
+    NSString *mntoken = @"";
+    NSString *homeDirectory = NSHomeDirectory();
+    NSString *filePath = [homeDirectory stringByAppendingString:@"/Documents/MNtoken.txt"];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        mntoken = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+    }
+    
+    //skip login screen if token exists
+    if ([mntoken length] > 8) {
+        NSLog(@"%@", mntoken);
         [self performSegueWithIdentifier:@"MusicNetWelcomeTo" sender:self];
     }
 }
@@ -85,7 +96,24 @@
         //API Calls
         //save token
         //on success move ahead
-        [self performSegueWithIdentifier:@"MusicNetWelcomeTo" sender:self];
+        
+        NSString *apiUrl = kMNapiUrl;
+        NSURL *URL = [NSURL URLWithString:apiUrl];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+        request.HTTPMethod = @"POST";
+        
+        NSString *params = [[[[@"fn=register&email=" stringByAppendingString:userEmail ] stringByAppendingString:@"&city="] stringByAppendingString:userCity] stringByAppendingString:@"&image=32.jpg"];
+        
+        NSData *data = [params dataUsingEncoding:NSUTF8StringEncoding];
+        [request addValue:@"8bit" forHTTPHeaderField:@"Content-Transfer-Encoding"];
+        [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        [request addValue:[NSString stringWithFormat:@"%lu", (unsigned long)[data length]] forHTTPHeaderField:@"Content-Length"];
+        [request setHTTPBody:data];
+        
+        // Create url connection and fire request
+        NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        
+        //[self performSegueWithIdentifier:@"MusicNetWelcomeTo" sender:self];
     }
     
 }
@@ -139,5 +167,73 @@
     [sender resignFirstResponder];
 }
 
+#pragma mark NSURLConnection Delegate Methods
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    // A response has been received, this is where we initialize the instance var you created
+    // so that we can append data to it in the didReceiveData method
+    // Furthermore, this method is called each time there is a redirect so reinitializing it
+    // also serves to clear it
+    //_responseData = [[NSMutableData alloc] init];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    
+    NSLog(@"%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+    [_activityIndicator stopAnimating];
+    
+    //Parse the JSON response
+    NSError *error;
+    NSDictionary *apiResponse = [NSJSONSerialization
+                                 JSONObjectWithData:data
+                                 options:kNilOptions
+                                 error:&error];
+    
+    //NSLog( @"%@", apiResponse );
+    
+    //check if the response is good to go
+    NSString *apiResponseStatus = [apiResponse objectForKey:@"status"];
+    //get the data part of the response
+    NSString *apiResponseData = [apiResponse objectForKey:@"data"];
+    
+    if ([apiResponseStatus boolValue] == 1) {
+        
+        NSLog(@"%@", apiResponseData);
+        
+        //Save the token in a token plist
+        NSString *homeDirectory = NSHomeDirectory();
+        NSString *filePath = [homeDirectory stringByAppendingString:@"/Documents/MNtoken.txt"];
+        [apiResponseData writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+        
+        //move user to welcome screen
+        [self performSegueWithIdentifier:@"MusicNetWelcomeTo" sender:self];
+        
+        
+    } else {
+        
+        //Show alert that request was not fine
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Something Went Wrong" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alertView show];
+        
+    }
+    
+}
+
+- (NSCachedURLResponse *)connection:(NSURLConnection *)connection
+                  willCacheResponse:(NSCachedURLResponse*)cachedResponse {
+    // Return nil to indicate not necessary to store a cached response for this connection
+    return nil;
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    // The request is complete and data has been received
+    // You can parse the stuff in your instance variable now
+    
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    // The request has failed for some reason!
+    // Check the error var
+}
 
 @end

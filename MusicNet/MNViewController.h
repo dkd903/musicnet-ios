@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface MNViewController : UIViewController
-
+- (IBAction)logoutClicked:(id)sender;
+@property (strong, nonatomic) NSString *mntoken;
 @end
