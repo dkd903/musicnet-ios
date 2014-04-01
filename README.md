@@ -1,4 +1,4 @@
 musicnet-ios
 ============
 
-The iOS app for MusicNet Project
+The iOS app for MusicNet Project.
