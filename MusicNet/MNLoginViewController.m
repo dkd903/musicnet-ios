@@ -84,27 +84,9 @@
     
     NSString *userEmail = [_userEmail text];
     NSString *userCity = [_userCity text];
+    
     //_userImage
     NSData *imageData = UIImageJPEGRepresentation(_userImage, 90);
-    
-    
-    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://digitizormedia.com/dev/mn/"]];
-    //NSData *imageData = UIImageJPEGRepresentation(self.avatarView.image, 0.5);
-    NSDictionary *parameters = @{@"username": userEmail, @"password" : userCity};
-    AFHTTPRequestOperation *op = [manager POST:@"upload.php" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        //do not put image inside parameters dictionary as I did, but append it!
-        [formData appendPartWithFileData:imageData name:@"photo" fileName:@"photo.jpg" mimeType:@"image/jpeg"];
-    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
-        [_activityIndicator stopAnimating];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@ ***** %@", operation.responseString, error);
-        [_activityIndicator stopAnimating];
-    }];
-    [_activityIndicator startAnimating];
-    [op start];
-    
-
     
     //Trim whitespace if any
     [userEmail stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet] ];
@@ -119,7 +101,7 @@
         //save token
         //on success move ahead
         
-        NSString *apiUrl = kMNapiUrl;
+        /*NSString *apiUrl = kMNapiUrl;
         NSURL *URL = [NSURL URLWithString:apiUrl];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
         request.HTTPMethod = @"POST";
@@ -133,11 +115,60 @@
         [request setHTTPBody:data];
         
         // Create url connection and fire request
-        NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];*/
         
-        //[self performSegueWithIdentifier:@"MusicNetWelcomeTo" sender:self];
+        
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://placementprep.in/dev/mn/"]];
+        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+        
+        NSDictionary *parameters = @{@"fn": @"register", @"email": userEmail, @"city" : userCity};
+        AFHTTPRequestOperation *op = [manager POST:@"index.php" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+            
+            //do not put image inside parameters dictionary as I did, but append it!
+            [formData appendPartWithFileData:imageData name:@"photo" fileName:[userEmail stringByAppendingString:@"photo.jpg"] mimeType:@"image/jpeg"];
+            
+        } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            
+            NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
+            [_activityIndicator stopAnimating];
+            
+            if ([responseObject[@"status"] isEqualToString:@"1"]) {
+                
+                [self loginUser:responseObject[@"data"]];
+            
+            } else {
+
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Something Went Wrong" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                [alertView show];
+                
+            }
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            
+            NSLog(@"Error: %@ ***** %@", operation.responseString, error);
+            [_activityIndicator stopAnimating];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Something Went Wrong" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alertView show];
+            
+        }];
+        [_activityIndicator startAnimating];
+        [op start];
+        
     }
      
+    
+}
+
+-(void)loginUser:(NSString *)apiResponseData {
+    
+    //Save the token in a token plist
+    NSError *error;
+    NSString *homeDirectory = NSHomeDirectory();
+    NSString *filePath = [homeDirectory stringByAppendingString:@"/Documents/MNtoken.txt"];
+    [apiResponseData writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+    
+    //move user to welcome screen
+    [self performSegueWithIdentifier:@"MusicNetWelcomeTo" sender:self];
     
 }
 
