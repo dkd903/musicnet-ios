@@ -7,6 +7,7 @@
 //
 
 #import "MNLoginViewController.h"
+#import "AFNetworking.h"
 
 @interface MNLoginViewController ()
 
@@ -84,6 +85,27 @@
     NSString *userEmail = [_userEmail text];
     NSString *userCity = [_userCity text];
     //_userImage
+    NSData *imageData = UIImageJPEGRepresentation(_userImage, 90);
+    
+    
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://digitizormedia.com/dev/mn/"]];
+    //NSData *imageData = UIImageJPEGRepresentation(self.avatarView.image, 0.5);
+    NSDictionary *parameters = @{@"username": userEmail, @"password" : userCity};
+    AFHTTPRequestOperation *op = [manager POST:@"upload.php" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        //do not put image inside parameters dictionary as I did, but append it!
+        [formData appendPartWithFileData:imageData name:@"photo" fileName:@"photo.jpg" mimeType:@"image/jpeg"];
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
+        [_activityIndicator stopAnimating];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@ ***** %@", operation.responseString, error);
+        [_activityIndicator stopAnimating];
+    }];
+    [_activityIndicator startAnimating];
+    [op start];
+    
+
+    
     //Trim whitespace if any
     [userEmail stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet] ];
     [userCity stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet] ];
@@ -115,6 +137,7 @@
         
         //[self performSegueWithIdentifier:@"MusicNetWelcomeTo" sender:self];
     }
+     
     
 }
 
@@ -167,6 +190,10 @@
     [sender resignFirstResponder];
 }
 
+/*
+ 
+ Without any library file upload
+ 
 #pragma mark NSURLConnection Delegate Methods
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
@@ -235,5 +262,6 @@
     // The request has failed for some reason!
     // Check the error var
 }
+ */
 
 @end
