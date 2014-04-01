@@ -7,6 +7,8 @@
 //
 
 #import "MNAnswerViewController.h"
+#import "MNLoginViewController.h"
+#import "AFNetworking.h"
 
 @interface MNAnswerViewController ()
 
@@ -30,6 +32,35 @@
         NSLog(@"%@", _mntoken);
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:TRUE];
+    
+    [_questionIndicator startAnimating];
+    
+    //get the latest question
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kMNapiUrl]];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    
+    NSDictionary *parameters = @{@"fn": @"getQuestion", @"token": _mntoken};
+    AFHTTPRequestOperation *op = [manager POST:@"index.php" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
+        [_questionIndicator stopAnimating];
+        [_fieldQuestion setText:responseObject[@"data"]];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"Error: %@ ***** %@", operation.responseString, error);
+        [_questionIndicator stopAnimating];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Cannot Get Question Right Now" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alertView show];
+        
+    }];
+    
+    [op start];
+
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -46,5 +77,59 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (IBAction)sendAnswer:(id)sender {
+    
+    if([[_fieldAnswer text] length] == 0) {
+        
+        UIAlertView *newAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please fill in Answer" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [newAlert show];
+        
+    } else {
+     
+        [_questionIndicator startAnimating];
+        
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kMNapiUrl]];
+        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+        
+        NSDictionary *parameters = @{@"fn": @"addanswer", @"token": _mntoken, @"question": [_fieldQuestion text], @"answer": [_fieldAnswer text]};
+        AFHTTPRequestOperation *op = [manager POST:@"index.php" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            
+            NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
+            [_questionIndicator stopAnimating];
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            
+            NSLog(@"Error: %@ ***** %@", operation.responseString, error);
+            [_questionIndicator stopAnimating];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Cannot Save Answer" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alertView show];
+            
+        }];
+        
+        [op start];
+        
+    }
+    
+}
+
+#pragma mark - Hide Keyboard
+//On touching any space on the screen
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    UITouch *touch = [[event allTouches] anyObject];
+    if ([_fieldAnswer isFirstResponder] && [touch view] != _fieldAnswer) {
+        [_fieldAnswer resignFirstResponder];
+    }
+    [super touchesBegan:touches withEvent:event];
+}
+
+#pragma mark - Hide Keyboard With Button
+
+-(IBAction)textFieldReturn:(id)sender
+{
+    [sender resignFirstResponder];
+}
 
 @end

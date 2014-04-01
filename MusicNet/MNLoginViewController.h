@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define kMNapiUrl @"http://digitizormedia.com/dev/mn/index.php"
+#define kMNapiUrl @"http://placementprep.in/dev/mn/"
 
 @interface MNLoginViewController : UIViewController
 - (IBAction)loginClicked:(id)sender;

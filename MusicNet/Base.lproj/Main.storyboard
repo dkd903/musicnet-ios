@@ -205,7 +205,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="soM-u2-zDU">
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="soM-u2-zDU">
                                 <rect key="frame" x="150" y="293" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
@@ -215,8 +215,11 @@
                                 <state key="normal" title="Send">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="sendAnswer:" destination="Obu-CG-raY" eventType="touchUpInside" id="p0C-F4-MPt"/>
+                                </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Q: What do you think is Rob going to play next after this song?" translatesAutoresizingMaskIntoConstraints="NO" id="Ppr-pl-KhJ">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Loading Question..." translatesAutoresizingMaskIntoConstraints="NO" id="Ppr-pl-KhJ">
                                 <rect key="frame" x="40" y="101" width="240" height="65"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -228,6 +231,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="textFieldReturn:" destination="Obu-CG-raY" eventType="editingDidEndOnExit" id="k1N-g3-e8F"/>
+                                </connections>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -235,6 +241,11 @@
                     <navigationItem key="navigationItem" title="Question" id="REq-Hp-ANz">
                         <barButtonItem key="backBarButtonItem" title=" " id="5b3-oG-War"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="fieldAnswer" destination="MR7-2L-QQ6" id="bVd-3H-P0H"/>
+                        <outlet property="fieldQuestion" destination="Ppr-pl-KhJ" id="Uce-wI-IDq"/>
+                        <outlet property="questionIndicator" destination="soM-u2-zDU" id="0zn-rS-7aN"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mCA-qR-Iyg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

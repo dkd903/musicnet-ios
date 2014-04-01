@@ -118,7 +118,7 @@
         NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];*/
         
         
-        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://placementprep.in/dev/mn/"]];
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kMNapiUrl]];
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
         
         NSDictionary *parameters = @{@"fn": @"register", @"email": userEmail, @"city" : userCity};

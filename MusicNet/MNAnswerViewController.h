@@ -11,5 +11,9 @@
 @interface MNAnswerViewController : UIViewController
 
 @property (weak, nonatomic) NSString *mntoken;
+@property (weak, nonatomic) IBOutlet UITextView *fieldQuestion;
+@property (weak, nonatomic) IBOutlet UITextField *fieldAnswer;
+- (IBAction)sendAnswer:(id)sender;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *questionIndicator;
 
 @end
