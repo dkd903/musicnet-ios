@@ -8,7 +8,7 @@
 
 #import "MNViewController.h"
 #import "MNAnswerViewController.h"
-#import "MNVoteViewController.h"
+#import "MNVoteTableViewController.h"
 #import "MNMixingBoardViewController.h"
 #import "MNPulseViewController.h"
 
@@ -30,7 +30,7 @@
         
     } else if ([[segue identifier] isEqualToString:@"VoteMusician"]) {
         
-        MNVoteViewController *voteBoardViewController = [segue destinationViewController];
+        MNVoteTableViewController *voteBoardViewController = [segue destinationViewController];
         voteBoardViewController.mntoken = _mntoken;
         
     } else if ([[segue identifier] isEqualToString:@"AnswerQuestion"]) {

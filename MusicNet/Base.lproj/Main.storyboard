@@ -127,7 +127,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="vnN-M5-A7F" kind="push" identifier="VoteMusician" id="5hI-GS-FnH"/>
+                                    <segue destination="ygh-No-p2v" kind="push" identifier="VoteMusician" id="swa-Tq-gif"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hP2-Yg-KOs">
@@ -164,34 +164,57 @@
             </objects>
             <point key="canvasLocation" x="671" y="533"/>
         </scene>
-        <!--Vote View Controller - Cast a Vote-->
-        <scene sceneID="f9G-R6-KSV">
+        <!--Vote Table View Controller - Vote a Musician-->
+        <scene sceneID="f1J-Ma-i4O">
             <objects>
-                <viewController title="Cast a Vote" id="vnN-M5-A7F" customClass="MNVoteViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="oPM-L4-wXg"/>
-                        <viewControllerLayoutGuide type="bottom" id="Rpq-sW-CfZ"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="HC5-3g-O8x">
+                <tableViewController id="ygh-No-p2v" customClass="MNVoteTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Lnb-Rj-4de">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Cast a Vote" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kF8-MS-HEM">
-                                <rect key="frame" x="116" y="249" width="89" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Vote" id="H7H-G1-eZw">
-                        <barButtonItem key="backBarButtonItem" title=" " id="hVN-bR-oV0"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="ocp-Vz-vBx">
+                            <rect key="frame" x="0.0" y="130" width="320" height="227"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="leO-Ja-mB6">
+                                    <rect key="frame" x="150" y="20" width="20" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </activityIndicatorView>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dlw-6c-Bg2">
+                                    <rect key="frame" x="20" y="87" width="280" height="54"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        </view>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="VoteCell" id="edw-mG-W7C">
+                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="edw-mG-W7C" id="Jqn-Rd-jux">
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ygh-No-p2v" id="e6b-NP-tOh"/>
+                            <outlet property="delegate" destination="ygh-No-p2v" id="gQd-is-lO8"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Vote a Musician" id="Ayx-eO-B2K">
+                        <barButtonItem key="backBarButtonItem" title=" " id="oYE-VI-0Hv"/>
                     </navigationItem>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="sdT-FA-AVJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                    <connections>
+                        <outlet property="voteIndicator" destination="leO-Ja-mB6" id="F1h-PW-8l7"/>
+                        <outlet property="voteLabel" destination="Dlw-6c-Bg2" id="s5Z-Lp-aty"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fOe-M3-3v6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1754" y="-249"/>
+            <point key="canvasLocation" x="1713" y="-235"/>
         </scene>
         <!--Answer View Controller - Answer a Question-->
         <scene sceneID="8os-Do-CtE">

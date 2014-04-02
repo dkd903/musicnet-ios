@@ -12,7 +12,6 @@
 		A57A31F018E7A10F000AEA13 /* MNMixingBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A57A31EF18E7A10F000AEA13 /* MNMixingBoardViewController.m */; };
 		A584B9BB18EA7C4100878025 /* MNAnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A584B9BA18EA7C4100878025 /* MNAnswerViewController.m */; };
 		A584B9BE18EA7C4E00878025 /* MNPulseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A584B9BD18EA7C4E00878025 /* MNPulseViewController.m */; };
-		A584B9C118EA7C7200878025 /* MNVoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A584B9C018EA7C7200878025 /* MNVoteViewController.m */; };
 		A5E7F3FF18E72B6D005E23A3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E7F3FE18E72B6D005E23A3 /* Foundation.framework */; };
 		A5E7F40118E72B6D005E23A3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E7F40018E72B6D005E23A3 /* CoreGraphics.framework */; };
 		A5E7F40318E72B6D005E23A3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E7F40218E72B6D005E23A3 /* UIKit.framework */; };
@@ -51,6 +50,7 @@
 		A5EE400818EB40A800465290 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = A5EE3FF518EB40A800465290 /* UIProgressView+AFNetworking.m */; };
 		A5EE400918EB40A800465290 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = A5EE3FF718EB40A800465290 /* UIRefreshControl+AFNetworking.m */; };
 		A5EE400A18EB40A800465290 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = A5EE3FF918EB40A800465290 /* UIWebView+AFNetworking.m */; };
+		A5F1AC0E18EB980D000F10C7 /* MNVoteTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F1AC0D18EB980D000F10C7 /* MNVoteTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,8 +72,6 @@
 		A584B9BA18EA7C4100878025 /* MNAnswerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MNAnswerViewController.m; sourceTree = "<group>"; };
 		A584B9BC18EA7C4E00878025 /* MNPulseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MNPulseViewController.h; sourceTree = "<group>"; };
 		A584B9BD18EA7C4E00878025 /* MNPulseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MNPulseViewController.m; sourceTree = "<group>"; };
-		A584B9BF18EA7C7200878025 /* MNVoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MNVoteViewController.h; sourceTree = "<group>"; };
-		A584B9C018EA7C7200878025 /* MNVoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MNVoteViewController.m; sourceTree = "<group>"; };
 		A5E7F3FB18E72B6D005E23A3 /* MusicNet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicNet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5E7F3FE18E72B6D005E23A3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A5E7F40018E72B6D005E23A3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -137,6 +135,8 @@
 		A5EE3FF718EB40A800465290 /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
 		A5EE3FF818EB40A800465290 /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
 		A5EE3FF918EB40A800465290 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
+		A5F1AC0C18EB980D000F10C7 /* MNVoteTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MNVoteTableViewController.h; sourceTree = "<group>"; };
+		A5F1AC0D18EB980D000F10C7 /* MNVoteTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MNVoteTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,8 +203,8 @@
 				A5E7F41018E72B6E005E23A3 /* Main.storyboard */,
 				A584B9BC18EA7C4E00878025 /* MNPulseViewController.h */,
 				A584B9BD18EA7C4E00878025 /* MNPulseViewController.m */,
-				A584B9BF18EA7C7200878025 /* MNVoteViewController.h */,
-				A584B9C018EA7C7200878025 /* MNVoteViewController.m */,
+				A5F1AC0C18EB980D000F10C7 /* MNVoteTableViewController.h */,
+				A5F1AC0D18EB980D000F10C7 /* MNVoteTableViewController.m */,
 				A584B9B918EA7C4100878025 /* MNAnswerViewController.h */,
 				A584B9BA18EA7C4100878025 /* MNAnswerViewController.m */,
 				A57A31EE18E7A10F000AEA13 /* MNMixingBoardViewController.h */,
@@ -421,13 +421,13 @@
 				A57A31F018E7A10F000AEA13 /* MNMixingBoardViewController.m in Sources */,
 				A5EE400518EB40A800465290 /* UIAlertView+AFNetworking.m in Sources */,
 				A5EE3FFB18EB40A800465290 /* AFHTTPRequestOperationManager.m in Sources */,
-				A584B9C118EA7C7200878025 /* MNVoteViewController.m in Sources */,
 				A5E7F40B18E72B6E005E23A3 /* main.m in Sources */,
 				A5EE400718EB40A800465290 /* UIImageView+AFNetworking.m in Sources */,
 				A5EE3FFC18EB40A800465290 /* AFHTTPSessionManager.m in Sources */,
 				A5EE400418EB40A800465290 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				A5EE400318EB40A800465290 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				A5E7F44118E73662005E23A3 /* MNLoginViewController.m in Sources */,
+				A5F1AC0E18EB980D000F10C7 /* MNVoteTableViewController.m in Sources */,
 				A5E7F41518E72B6E005E23A3 /* MNViewController.m in Sources */,
 				A584B9BE18EA7C4E00878025 /* MNPulseViewController.m in Sources */,
 				A5EE3FFE18EB40A800465290 /* AFSecurityPolicy.m in Sources */,
