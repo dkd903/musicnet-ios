@@ -8,8 +8,11 @@
 
 #import "MNLoginViewController.h"
 #import "AFNetworking.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface MNLoginViewController ()
+
+- (void)vibrate;
 
 @end
 
@@ -54,8 +57,10 @@
         mntoken = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     }
     
+    //[self performSegueWithIdentifier:@"MusicNetWelcomeTo" sender:self];
+    
     //skip login screen if token exists
-    if ([mntoken length] > 8) {
+    if ([mntoken length] > 1) {
         NSLog(@"%@", mntoken);
         [self performSegueWithIdentifier:@"MusicNetWelcomeTo" sender:self];
     }
@@ -78,24 +83,35 @@
 }
 */
 
+- (void) vibrate {
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+}
+
 #pragma mark - Continue BUtton Click
 
 - (IBAction)loginClicked:(id)sender {
     
     NSString *userEmail = [_userEmail text];
     NSString *userCity = [_userCity text];
+    NSString *userState = [_userState text];
+    NSString *userCountry = [_userCountry text];
+    NSString *iOSVersion = [@"iOS " stringByAppendingFormat:@"%f", [[UIDevice currentDevice].systemVersion floatValue]];
+    
+    NSLog(@"%@", iOSVersion);
     
     //_userImage
     NSData *imageData = UIImageJPEGRepresentation(_userImage, 90);
+    NSString *imageByteArray  = [imageData base64Encoding];
     
     //Trim whitespace if any
     [userEmail stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet] ];
     [userCity stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet] ];
     
-    if ([userEmail length] == 0 || [userCity length] == 0 || _imageChanged == 0) {
+    if ([userEmail length] == 0 || [userCity length] == 0 || [userState length] == 0 ){//|| _imageChanged == 0) {
         UIAlertView *newAlert = [[UIAlertView alloc] initWithTitle:@"Login Error" message:@"Please fill in all the fields" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [newAlert show];
     } else {
+        [self vibrate];
         [_activityIndicator startAnimating];
         //API Calls
         //save token
@@ -106,7 +122,7 @@
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
         request.HTTPMethod = @"POST";
         
-        NSString *params = [[[[@"fn=register&email=" stringByAppendingString:userEmail ] stringByAppendingString:@"&city="] stringByAppendingString:userCity] stringByAppendingString:@"&image=32.jpg"];
+        NSString *params = [[[[@"s=register&email=" stringByAppendingString:userEmail ] stringByAppendingString:@"&city="] stringByAppendingString:userCity] stringByAppendingString:@"&image=32.jpg"];
         
         NSData *data = [params dataUsingEncoding:NSUTF8StringEncoding];
         [request addValue:@"8bit" forHTTPHeaderField:@"Content-Transfer-Encoding"];
@@ -119,22 +135,27 @@
         
         
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kMNapiUrl]];
-        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
         
-        NSDictionary *parameters = @{@"fn": @"register", @"email": userEmail, @"city" : userCity};
-        AFHTTPRequestOperation *op = [manager POST:@"index.php" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        
+        NSDictionary *parameters = @{@"email": userEmail, @"city" : userCity, @"state" : userState, @"country" : userCountry, @"device" : iOSVersion };
+        AFHTTPRequestOperation *op = [manager POST:@"submitLogin" parameters:parameters /*constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
             
             //do not put image inside parameters dictionary as I did, but append it!
             [formData appendPartWithFileData:imageData name:@"photo" fileName:[userEmail stringByAppendingString:@"photo.jpg"] mimeType:@"image/jpeg"];
             
-        } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        }*/ success:^(AFHTTPRequestOperation *operation, id responseObject) {
             
             NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
             [_activityIndicator stopAnimating];
             
-            if ([responseObject[@"status"] isEqualToString:@"1"]) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response" message:operation.responseString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alertView show];
+            
+            if ([responseObject[@"status"] boolValue]) {
                 
-                [self loginUser:responseObject[@"data"]];
+                [self loginUser:responseObject[@"token"]];
             
             } else {
 
@@ -165,7 +186,8 @@
     NSError *error;
     NSString *homeDirectory = NSHomeDirectory();
     NSString *filePath = [homeDirectory stringByAppendingString:@"/Documents/MNtoken.txt"];
-    [apiResponseData writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+    NSString *tokenToSave = [[NSString alloc] initWithFormat:@"%@", apiResponseData];
+    [tokenToSave writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
     
     //move user to welcome screen
     [self performSegueWithIdentifier:@"MusicNetWelcomeTo" sender:self];
@@ -210,6 +232,12 @@
     }
     if ([_userCity isFirstResponder] && [touch view] != _userCity) {
         [_userCity resignFirstResponder];
+    }
+    if ([_userState isFirstResponder] && [touch view] != _userState) {
+        [_userState resignFirstResponder];
+    }
+    if ([_userCountry isFirstResponder] && [touch view] != _userCountry) {
+        [_userCountry resignFirstResponder];
     }
     [super touchesBegan:touches withEvent:event];
 }

@@ -7,14 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-
-#define kMNapiUrl @"http://placementprep.in/dev/mn/"
+#import "MNApiCreds.h"
 
 @interface MNLoginViewController : UIViewController
 - (IBAction)loginClicked:(id)sender;
 - (IBAction)textFieldReturn:(id)sender;
 @property (weak, nonatomic) IBOutlet UITextField *userEmail;
 @property (weak, nonatomic) IBOutlet UITextField *userCity;
+@property (weak, nonatomic) IBOutlet UITextField *userState;
+@property (weak, nonatomic) IBOutlet UITextField *userCountry;
 @property (weak, nonatomic) IBOutlet UIImageView *userImageView;
 @property (weak, nonatomic) IBOutlet UILabel *addImageLabel;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
