@@ -11,5 +11,6 @@
 @interface MNPulseViewController : UIViewController
 
 @property (weak, nonatomic) NSString *mntoken;
+@property (weak, nonatomic) NSString *color;
 
 @end

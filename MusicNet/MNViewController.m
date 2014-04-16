@@ -8,7 +8,7 @@
 
 #import "MNViewController.h"
 #import "MNAnswerViewController.h"
-#import "MNVoteTableViewController.h"
+#import "MNVoteViewController.h"
 #import "MNMixingBoardViewController.h"
 #import "MNPulseViewController.h"
 
@@ -27,21 +27,25 @@
         
         MNMixingBoardViewController *mixingBoardViewController = [segue destinationViewController];
         mixingBoardViewController.mntoken = _mntoken;
+        mixingBoardViewController.color = _color;
         
     } else if ([[segue identifier] isEqualToString:@"VoteMusician"]) {
         
-        MNVoteTableViewController *voteBoardViewController = [segue destinationViewController];
+        MNVoteViewController *voteBoardViewController = [segue destinationViewController];
         voteBoardViewController.mntoken = _mntoken;
+        voteBoardViewController.color = _color;
         
     } else if ([[segue identifier] isEqualToString:@"AnswerQuestion"]) {
         
         MNAnswerViewController *answerBoardViewController = [segue destinationViewController];
         answerBoardViewController.mntoken = _mntoken;
+        answerBoardViewController.color = _color;
         
     } else if ([[segue identifier] isEqualToString:@"RecordPulse"]) {
         
         MNPulseViewController *pulseBoardViewController = [segue destinationViewController];
         pulseBoardViewController.mntoken = _mntoken;
+        pulseBoardViewController.color = _color;
         
     }
     
@@ -53,6 +57,16 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    NSString *color = @"";
+    NSString *chomeDirectory = NSHomeDirectory();
+    NSString *cfilePath = [chomeDirectory stringByAppendingString:@"/Documents/MNUserColor.txt"];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:cfilePath]) {
+        color = [[NSString alloc] initWithContentsOfFile:cfilePath encoding:NSUTF8StringEncoding error:nil];
+    }
+    
+    _color = color;
+    NSLog(@"%@", _color);
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -68,6 +82,7 @@
     }
     
     _mntoken = mntoken;
+    [self setColorMusicNet];
 }
 
 - (void)didReceiveMemoryWarning
@@ -85,5 +100,17 @@
     
     [self performSegueWithIdentifier:@"MusicNetLogin" sender:self];
     
+}
+
+- (void)setColorMusicNet {
+    NSString *stringColor = _color;
+    NSUInteger red, green, blue;
+    sscanf([stringColor UTF8String], "#%02X%02X%02X", &red, &green, &blue);
+    
+    UIColor *color = [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1];
+    //self.view.backgroundColor = color;
+    //self.window.backgroundColor = color;
+    //[[self navigationController] navigationBar setTintColor:[UIColor redColor]; //Red as an example.
+    //[[[self navigationController] navigationBar] setTintColor:color];
 }
 @end

@@ -29,21 +29,28 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-        NSLog(@"%@", _mntoken);
+    NSLog(@"%@", _mntoken);
+    NSLog(@"%@", _color);
+    [_fieldAnswer setHidden:YES];
+    //[_sendButton setHidden:YES];
+    //_sendButton.width = 0.01;
+    [_fieldQuestion setHidden:YES];
+    [_greatAnswer setHidden:YES];
+    [_questionIndicator startAnimating];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:TRUE];
-    
-    [_questionIndicator startAnimating];
-    
+    [self setColorMusicNet];
     //get the latest question
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kMNapiUrl]];
     //manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     
-    NSDictionary *parameters = @{@"token": _mntoken};
+    NSInteger uid = [_mntoken integerValue];
+    
+    NSDictionary *parameters = @{@"token": [NSNumber numberWithInteger:uid]};
     AFHTTPRequestOperation *op = [manager POST:@"getLatestQuestion" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
@@ -52,6 +59,25 @@
         
         [_questionIndicator stopAnimating];
         [_fieldQuestion setText:responseObject[@"question"]];
+        _questionId = [@"" stringByAppendingString:responseObject[@"questionId"]];
+        NSLog(@"%@", _questionId);
+        [_fieldAnswer setHidden:NO];
+        //[_sendButton setHidden:NO];
+        //_sendButton.width = 0;
+        [_fieldQuestion setHidden:NO];
+        
+        //if the question is not new and user has already answered it
+        //set the answer field with old answer
+        NSString *userAnswer = @"";
+        NSString *homeDirectory = NSHomeDirectory();
+        NSString *filePath = [homeDirectory stringByAppendingString:@"/Documents/MNUserAnswer.txt"];
+        
+        if ([[NSFileManager defaultManager] fileExistsAtPath:filePath] && !([responseObject[@"isNew"] boolValue])) {
+            userAnswer = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+            [_fieldAnswer setText:userAnswer];
+        }
+        NSLog(@"[][] Answer - %@", userAnswer);
+        
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
@@ -77,6 +103,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)setColorMusicNet {
+    NSString *stringColor = _color;
+    NSUInteger red, green, blue;
+    sscanf([stringColor UTF8String], "#%02X%02X%02X", &red, &green, &blue);
+    
+    UIColor *color = [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1];
+    self.view.backgroundColor = color;
+}
+
 /*
 #pragma mark - Navigation
 
@@ -90,6 +125,9 @@
 
 - (IBAction)sendAnswer:(id)sender {
     
+    //NSString *filePath = @"/Documents/UserAnswer.plist";
+    NSInteger uid = [_mntoken integerValue];
+    
     if([[_fieldAnswer text] length] == 0) {
         
         UIAlertView *newAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please fill in Answer" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -98,15 +136,29 @@
     } else {
      
         [_questionIndicator startAnimating];
+        //dismiss the keypad
+        [self.view endEditing:YES];
+        
+        //store the last entered answer and question id
+        NSError *error;
+        NSString *homeDirectory = NSHomeDirectory();
+        NSString *filePath = [homeDirectory stringByAppendingString:@"/Documents/MNUserAnswer.txt"];
+        NSString *answerToSave = [[NSString alloc] initWithFormat:@"%@", [_fieldAnswer text]];
+        [answerToSave writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
         
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kMNapiUrl]];
-        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+        //manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
+        manager.requestSerializer = [AFJSONRequestSerializer serializer];
         
-        NSDictionary *parameters = @{@"fn": @"addanswer", @"token": _mntoken, @"question": [_fieldQuestion text], @"answer": [_fieldAnswer text]};
-        AFHTTPRequestOperation *op = [manager POST:@"index.php" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSDictionary *parameters = @{@"token": [NSNumber numberWithInteger:uid], @"questionId": _questionId, @"answer": [_fieldAnswer text]};
+        AFHTTPRequestOperation *op = [manager POST:@"sendAnswer" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
             
             NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
             [_questionIndicator stopAnimating];
+            //[self.navigationController popViewControllerAnimated:YES];
+            [_greatAnswer setHidden:NO];
+
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             
@@ -140,6 +192,14 @@
 -(IBAction)textFieldReturn:(id)sender
 {
     [sender resignFirstResponder];
+}
+
+#pragma mark - get file path
+- (NSString *)dataFilePath {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(
+                                                         NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    return [documentsDirectory stringByAppendingPathComponent:@"/Documents/UserAnswer.plist"];
 }
 
 @end

@@ -111,7 +111,7 @@
         UIAlertView *newAlert = [[UIAlertView alloc] initWithTitle:@"Login Error" message:@"Please fill in all the fields" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [newAlert show];
     } else {
-        [self vibrate];
+        //[self vibrate];
         [_activityIndicator startAnimating];
         //API Calls
         //save token
@@ -155,7 +155,9 @@
             
             if ([responseObject[@"status"] boolValue]) {
                 
+                [self saveColor:responseObject[@"color"]];
                 [self loginUser:responseObject[@"token"]];
+                
             
             } else {
 
@@ -175,8 +177,11 @@
         [_activityIndicator startAnimating];
         [op start];
         
+        //[self saveColor:@"FF2233"];
+        //[self loginUser:@"1123"];
+        
     }
-     
+    
     
 }
 
@@ -188,6 +193,20 @@
     NSString *filePath = [homeDirectory stringByAppendingString:@"/Documents/MNtoken.txt"];
     NSString *tokenToSave = [[NSString alloc] initWithFormat:@"%@", apiResponseData];
     [tokenToSave writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+    
+    //move user to welcome screen
+    [self performSegueWithIdentifier:@"MusicNetWelcomeTo" sender:self];
+    
+}
+
+-(void)saveColor:(NSString *)apiResponseData {
+    
+    //Save the token in a token plist
+    NSError *error;
+    NSString *homeDirectory = NSHomeDirectory();
+    NSString *filePath = [homeDirectory stringByAppendingString:@"/Documents/MNUserColor.txt"];
+    NSString *colorToSave = [[NSString alloc] initWithFormat:@"%@", apiResponseData];
+    [colorToSave writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
     
     //move user to welcome screen
     [self performSegueWithIdentifier:@"MusicNetWelcomeTo" sender:self];

@@ -14,6 +14,14 @@
 {
     // Override point for customization after application launch.
     //self.window.rootViewController = self.
+    
+    //Preload Keyboard for faster load
+    UITextField *lagFreeField = [[UITextField alloc] init];
+    [self.window addSubview:lagFreeField];
+    [lagFreeField becomeFirstResponder];
+    [lagFreeField resignFirstResponder];
+    [lagFreeField removeFromSuperview];
+    
     return YES;
 }
 							
@@ -28,7 +36,7 @@
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
-    NSDate *alertTime = [[NSDate date]
+    /*NSDate *alertTime = [[NSDate date]
                          dateByAddingTimeInterval:5];
     UIApplication* app = [UIApplication sharedApplication];
     UILocalNotification* notifyAlarm = [[UILocalNotification alloc]
@@ -41,7 +49,7 @@
         notifyAlarm.soundName = @"bell_tree.mp3";
         notifyAlarm.alertBody = @"New Question Received. Answer Now?";
         [app scheduleLocalNotification:notifyAlarm];
-    }
+    }*/
     
 }
 

@@ -11,4 +11,5 @@
 @interface MNViewController : UIViewController
 - (IBAction)logoutClicked:(id)sender;
 @property (strong, nonatomic) NSString *mntoken;
+@property (strong, nonatomic) NSString *color;
 @end
