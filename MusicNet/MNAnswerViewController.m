@@ -29,21 +29,37 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    NSLog(@"%@", _mntoken);
-    NSLog(@"%@", _color);
-    [_fieldAnswer setHidden:YES];
-    //[_sendButton setHidden:YES];
-    //_sendButton.width = 0.01;
-    [_fieldQuestion setHidden:YES];
+    //[_fieldAnswer setHidden:YES];
+    //[_fieldQuestion setHidden:YES];
     [_greatAnswer setHidden:YES];
-    [_questionIndicator startAnimating];
+    //[_questionIndicator startAnimating];
+    //set the answer field with old answer
+    NSString *userAnswer = @"";
+    NSString *homeDirectory = NSHomeDirectory();
+    NSString *filePath = [homeDirectory stringByAppendingString:@"/Documents/MNUserAnswer.txt"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        userAnswer = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+        [_fieldAnswer setText:userAnswer];
+    }
+    
+    filePath = [homeDirectory stringByAppendingString:@"/Documents/MNUserAnswer1.txt"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        userAnswer = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+        [_fieldAnswer1 setText:userAnswer];
+    }
+    
+    filePath = [homeDirectory stringByAppendingString:@"/Documents/MNUserAnswer2.txt"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        userAnswer = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+        [_fieldAnswer2 setText:userAnswer];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:TRUE];
-    [self setColorMusicNet];
+    
     //get the latest question
-    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kMNapiUrl]];
+    /*AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kMNapiUrl]];
     //manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -54,16 +70,14 @@
     AFHTTPRequestOperation *op = [manager POST:@"getLatestQuestion" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response" message:operation.responseString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alertView show];
+        //UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response" message:operation.responseString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        //[alertView show];
         
         [_questionIndicator stopAnimating];
         [_fieldQuestion setText:responseObject[@"question"]];
         _questionId = [@"" stringByAppendingString:responseObject[@"questionId"]];
-        NSLog(@"%@", _questionId);
+        
         [_fieldAnswer setHidden:NO];
-        //[_sendButton setHidden:NO];
-        //_sendButton.width = 0;
         [_fieldQuestion setHidden:NO];
         
         //if the question is not new and user has already answered it
@@ -76,14 +90,13 @@
             userAnswer = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
             [_fieldAnswer setText:userAnswer];
         }
-        NSLog(@"[][] Answer - %@", userAnswer);
         
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"Error: %@ ***** %@", operation.responseString, error);
-        UIAlertView *alertViewE = [[UIAlertView alloc] initWithTitle:@"Response" message:operation.responseString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alertViewE show];
+        //UIAlertView *alertViewE = [[UIAlertView alloc] initWithTitle:@"Response" message:operation.responseString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        //[alertViewE show];
         
         
         [_questionIndicator stopAnimating];
@@ -94,6 +107,7 @@
     }];
     
     [op start];
+     */
 
 }
 
@@ -101,15 +115,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)setColorMusicNet {
-    NSString *stringColor = _color;
-    NSUInteger red, green, blue;
-    sscanf([stringColor UTF8String], "#%02X%02X%02X", &red, &green, &blue);
-    
-    UIColor *color = [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1];
-    self.view.backgroundColor = color;
 }
 
 /*
@@ -128,9 +133,9 @@
     //NSString *filePath = @"/Documents/UserAnswer.plist";
     NSInteger uid = [_mntoken integerValue];
     
-    if([[_fieldAnswer text] length] == 0) {
+    if([[_fieldAnswer text] length] == 0 || [[_fieldAnswer1 text] length] == 0 || [[_fieldAnswer2 text] length] == 0) {
         
-        UIAlertView *newAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please fill in Answer" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        UIAlertView *newAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please fill in the Words" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [newAlert show];
         
     } else {
@@ -146,12 +151,24 @@
         NSString *answerToSave = [[NSString alloc] initWithFormat:@"%@", [_fieldAnswer text]];
         [answerToSave writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
         
+        filePath = [homeDirectory stringByAppendingString:@"/Documents/MNUserAnswer1.txt"];
+        answerToSave = [[NSString alloc] initWithFormat:@"%@", [_fieldAnswer1 text]];
+        [answerToSave writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+        
+        filePath = [homeDirectory stringByAppendingString:@"/Documents/MNUserAnswer2.txt"];
+        answerToSave = [[NSString alloc] initWithFormat:@"%@", [_fieldAnswer2 text]];
+        [answerToSave writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+        
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kMNapiUrl]];
         //manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
         manager.requestSerializer = [AFJSONRequestSerializer serializer];
         
-        NSDictionary *parameters = @{@"token": [NSNumber numberWithInteger:uid], @"questionId": _questionId, @"answer": [_fieldAnswer text]};
+        NSString *answerToSend = [[[[[@"" stringByAppendingString:[_fieldAnswer text]] stringByAppendingString:@"::::::"] stringByAppendingString:[_fieldAnswer1 text]] stringByAppendingString:@"::::::"] stringByAppendingString:[_fieldAnswer2 text]];
+        
+        NSLog(@"%@", answerToSend);
+        
+        NSDictionary *parameters = @{@"token": [NSNumber numberWithInteger:uid], @"questionId": @1, @"answer": answerToSend};
         AFHTTPRequestOperation *op = [manager POST:@"sendAnswer" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
             
             NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
@@ -183,6 +200,12 @@
     UITouch *touch = [[event allTouches] anyObject];
     if ([_fieldAnswer isFirstResponder] && [touch view] != _fieldAnswer) {
         [_fieldAnswer resignFirstResponder];
+    }
+    if ([_fieldAnswer1 isFirstResponder] && [touch view] != _fieldAnswer1) {
+        [_fieldAnswer1 resignFirstResponder];
+    }
+    if ([_fieldAnswer2 isFirstResponder] && [touch view] != _fieldAnswer2) {
+        [_fieldAnswer2 resignFirstResponder];
     }
     [super touchesBegan:touches withEvent:event];
 }

@@ -15,6 +15,8 @@
 @property (strong, nonatomic) NSString *questionId;
 @property (weak, nonatomic) IBOutlet UITextView *fieldQuestion;
 @property (weak, nonatomic) IBOutlet UITextField *fieldAnswer;
+@property (weak, nonatomic) IBOutlet UITextField *fieldAnswer1;
+@property (weak, nonatomic) IBOutlet UITextField *fieldAnswer2;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sendButton;
 - (IBAction)sendAnswer:(id)sender;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *questionIndicator;

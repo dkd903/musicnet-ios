@@ -8,4 +8,4 @@
 
 #import <Foundation/Foundation.h>
 
-#define kMNapiUrl @"http://129.21.34.115:9000/musicNet/"
+#define kMNapiUrl @"http://luxojr.cs.rit.edu:9000/musicNet/"

@@ -24,5 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *voteBtn5;
 @property (weak, nonatomic) IBOutlet UIButton *voteBtn6;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *voteIndicator;
+- (IBAction)voteResetTap:(id)sender;
+
 
 @end

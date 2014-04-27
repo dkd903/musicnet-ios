@@ -103,14 +103,11 @@
 }
 
 - (void)setColorMusicNet {
-    NSString *stringColor = _color;
-    NSUInteger red, green, blue;
-    sscanf([stringColor UTF8String], "#%02X%02X%02X", &red, &green, &blue);
-    
-    UIColor *color = [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1];
-    //self.view.backgroundColor = color;
-    //self.window.backgroundColor = color;
-    //[[self navigationController] navigationBar setTintColor:[UIColor redColor]; //Red as an example.
-    //[[[self navigationController] navigationBar] setTintColor:color];
+    unsigned rgbValue = 0;
+    NSScanner *scanner = [NSScanner scannerWithString:_color];
+    [scanner scanHexInt:&rgbValue];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
+    //self.navigationController.navigationBar.translucent = NO;
 }
+
 @end

@@ -39,8 +39,6 @@
     
     //check if image has been added
     _imageChanged = 0;
-    
-    //[[_activityIndicator alloc] init];
 
 
 }
@@ -61,7 +59,6 @@
     
     //skip login screen if token exists
     if ([mntoken length] > 1) {
-        NSLog(@"%@", mntoken);
         [self performSegueWithIdentifier:@"MusicNetWelcomeTo" sender:self];
     }
 }
@@ -92,20 +89,22 @@
 - (IBAction)loginClicked:(id)sender {
     
     NSString *userEmail = [_userEmail text];
+    NSString *userStreet = [_userStreet text];
     NSString *userCity = [_userCity text];
     NSString *userState = [_userState text];
     NSString *userCountry = [_userCountry text];
     NSString *iOSVersion = [@"iOS " stringByAppendingFormat:@"%f", [[UIDevice currentDevice].systemVersion floatValue]];
     
-    NSLog(@"%@", iOSVersion);
-    
-    //_userImage
-    NSData *imageData = UIImageJPEGRepresentation(_userImage, 90);
-    NSString *imageByteArray  = [imageData base64Encoding];
+    //Do not delete - image
+    //NSData *imageData = UIImageJPEGRepresentation(_userImage, 90);
+    //NSString *imageByteArray  = [imageData base64Encoding];
     
     //Trim whitespace if any
     [userEmail stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet] ];
     [userCity stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet] ];
+    [userStreet stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet] ];
+    [userState stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet] ];
+    [userCountry stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet] ];
     
     if ([userEmail length] == 0 || [userCity length] == 0 || [userState length] == 0 ){//|| _imageChanged == 0) {
         UIAlertView *newAlert = [[UIAlertView alloc] initWithTitle:@"Login Error" message:@"Please fill in all the fields" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -113,6 +112,10 @@
     } else {
         //[self vibrate];
         [_activityIndicator startAnimating];
+        if ([userCountry length] == 0 ) {
+            userCountry = @"USA";
+        }
+        
         //API Calls
         //save token
         //on success move ahead
@@ -139,7 +142,7 @@
         
         manager.requestSerializer = [AFJSONRequestSerializer serializer];
         
-        NSDictionary *parameters = @{@"email": userEmail, @"city" : userCity, @"state" : userState, @"country" : userCountry, @"device" : iOSVersion };
+        NSDictionary *parameters = @{@"email": userEmail, @"street" : userStreet, @"city" : userCity, @"state" : userState, @"country" : userCountry, @"device" : iOSVersion };
         AFHTTPRequestOperation *op = [manager POST:@"submitLogin" parameters:parameters /*constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
             
             //do not put image inside parameters dictionary as I did, but append it!
@@ -147,11 +150,11 @@
             
         }*/ success:^(AFHTTPRequestOperation *operation, id responseObject) {
             
-            NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
+            //NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
             [_activityIndicator stopAnimating];
             
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response" message:operation.responseString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alertView show];
+            //UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response" message:operation.responseString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            //[alertView show];
             
             if ([responseObject[@"status"] boolValue]) {
                 
@@ -168,7 +171,7 @@
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             
-            NSLog(@"Error: %@ ***** %@", operation.responseString, error);
+            //NSLog(@"Error: %@ ***** %@", operation.responseString, error);
             [_activityIndicator stopAnimating];
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:operation.responseString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
             [alertView show];
@@ -176,9 +179,6 @@
         }];
         [_activityIndicator startAnimating];
         [op start];
-        
-        //[self saveColor:@"FF2233"];
-        //[self loginUser:@"1123"];
         
     }
     
@@ -225,9 +225,6 @@
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    //UIImageView *newImageView  = [[UIImageView alloc] initWithImage:image];
-    //[newImageView setFrame:CGRectMake(arc4random_uniform(240), arc4random_uniform(300), 80, 80)];
-    //[[self view] addSubview:newImageView];
     [_userImageView setImage:image];
     _userImage = image;
     [_addImageLabel setText:@"Tap on image to change"];
@@ -257,6 +254,9 @@
     }
     if ([_userCountry isFirstResponder] && [touch view] != _userCountry) {
         [_userCountry resignFirstResponder];
+    }
+    if ([_userStreet isFirstResponder] && [touch view] != _userStreet) {
+        [_userStreet resignFirstResponder];
     }
     [super touchesBegan:touches withEvent:event];
 }
