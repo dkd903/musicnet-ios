@@ -98,6 +98,12 @@
     NSString *filePath = [homeDirectory stringByAppendingString:@"/Documents/MNtoken.txt"];
     [@"" writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
     
+    filePath = [homeDirectory stringByAppendingString:@"/Documents/MNvotes.txt"];
+    [@"000000" writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+    
+    filePath = [homeDirectory stringByAppendingString:@"/Documents/MNUserColor.txt"];
+    [@"" writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+    
     [self performSegueWithIdentifier:@"MusicNetLogin" sender:self];
     
 }

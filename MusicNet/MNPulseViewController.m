@@ -50,7 +50,6 @@ static int const FINE_TUNING=1;
 {
     [super viewDidLoad];
     _scores = [[NSMutableArray alloc] init];
-    [self addLabelAnimation];
     _frameTimeRefresh = NO;
     _numberOfFrames = 0;
     _frameCountArray = [[NSMutableArray alloc]init];
@@ -78,21 +77,7 @@ static int const FINE_TUNING=1;
     _beginTimer=[NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(beginRun) userInfo:nil repeats:YES];
     
 }
--(void) addLabelAnimation{
-    [UIView animateWithDuration:1.5 delay:0.1 options:UIViewAnimationOptionRepeat animations:^{
-        self.promptLabel.alpha=0;
-    } completion:^(BOOL finished) {
-        if (finished) {
-            self.promptLabel.alpha=1;
-        }
-    }];
-}
--(void) restore{
-    [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveLinear animations:^{
-        [self.promptLabel setAlpha: 1.0f];
-    } completion:NULL];
-    
-}
+
 -(void) setupGPUCamera{
     videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPresetMedium cameraPosition:AVCaptureDevicePositionBack];
     videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
@@ -129,26 +114,26 @@ static int const FINE_TUNING=1;
         float lastHighPassValue=0;
         float lowPassValue=(lastHighPassValue+highPassValue)/2;
         float classif = redComponent/(greenComponent+blueComponent);
-        if(classif > 1.5 && !weakSelf.pauseBroke){
+        //if(classif > 1.5 && !weakSelf.pauseBroke){
             if(weakSelf.halfCount < 2*WINDOW_SECONDS){
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    weakSelf.promptLabel.text = @"Detecting..";
+                    weakSelf.promptLabel.text = [@"Detecting..   " stringByAppendingString:[NSString stringWithFormat:@"%i",WINDOW_SECONDS - weakSelf.halfCount/2]];
                 });
+                weakSelf.pauseBroke=YES;
             }
-            weakSelf.pauseBroke=YES;
-        }
+        
+        //}
         if (classif > 1.5 && weakSelf.pauseBroke) {
             if(weakSelf.halfCount >= 2*WINDOW_SECONDS){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     weakSelf.promptLabel.text = @"Your Heart Rate is:";
-                    [weakSelf restore];
+                    
                 });
             }
         }
         if(classif < 1.5 && weakSelf.pauseBroke){
             dispatch_async(dispatch_get_main_queue(), ^{
                 weakSelf.promptLabel.text = @"Place your finger on the camera";
-                [weakSelf addLabelAnimation];
             });
             [weakSelf.scores removeAllObjects];
             [weakSelf.frameCountArray removeAllObjects];

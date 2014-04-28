@@ -249,6 +249,12 @@
             [_voteBtn4 setUserInteractionEnabled:YES];
             [_voteBtn5 setUserInteractionEnabled:YES];
             [_voteBtn6 setUserInteractionEnabled:YES];
+            
+            //save reset
+            NSError *error;
+            NSString *homeDirectory = NSHomeDirectory();
+            NSString *filePath = [homeDirectory stringByAppendingString:@"/Documents/MNvotes.txt"];
+            [@"000000" writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
             //NSLog(@"Hehe");
             
         }
