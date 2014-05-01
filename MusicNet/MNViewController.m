@@ -12,6 +12,16 @@
 #import "MNMixingBoardViewController.h"
 #import "MNPulseViewController.h"
 
+/*
+ *  System Versioning Preprocessor Macros
+ */
+
+#define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
+#define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
+
 
 @interface MNViewController ()
 
@@ -104,6 +114,15 @@
     filePath = [homeDirectory stringByAppendingString:@"/Documents/MNUserColor.txt"];
     [@"" writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
     
+    filePath = [homeDirectory stringByAppendingString:@"/Documents/MNUserAnswer.txt"];
+    [@"" writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+    
+    filePath = [homeDirectory stringByAppendingString:@"/Documents/MNUserAnswer1.txt"];
+    [@"" writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+    
+    filePath = [homeDirectory stringByAppendingString:@"/Documents/MNUserAnswer2.txt"];
+    [@"" writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+    
     [self performSegueWithIdentifier:@"MusicNetLogin" sender:self];
     
 }
@@ -112,7 +131,14 @@
     unsigned rgbValue = 0;
     NSScanner *scanner = [NSScanner scannerWithString:_color];
     [scanner scanHexInt:&rgbValue];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
+        self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
+    }
+    
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
+    }
+
     //self.navigationController.navigationBar.translucent = NO;
 }
 

@@ -27,6 +27,26 @@
     return self;
 }
 
+- (void)registerForKeyboardNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                            selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+- (void)deregisterFromKeyboardNotifications {
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardDidHideNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillHideNotification
+                                                  object:nil];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -61,6 +81,13 @@
     if ([mntoken length] > 1) {
         [self performSegueWithIdentifier:@"MusicNetWelcomeTo" sender:self];
     }
+    
+    //[self registerForKeyboardNotifications];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    //[self deregisterFromKeyboardNotifications];
+    [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning
@@ -266,6 +293,24 @@
 -(IBAction)textFieldReturn:(id)sender
 {
     [sender resignFirstResponder];
+}
+
+- (void)keyboardWasShown:(NSNotification *)notification {
+    NSDictionary* info = [notification userInfo];
+    CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    CGPoint buttonOrigin = self.signInButton.frame.origin;
+    CGFloat buttonHeight = self.signInButton.frame.size.height;
+    CGRect visibleRect = self.view.frame;
+    visibleRect.size.height -= keyboardSize.height;
+    if (!CGRectContainsPoint(visibleRect, buttonOrigin)){
+        CGPoint scrollPoint = CGPointMake(0.0, buttonOrigin.y - visibleRect.size.height + buttonHeight);
+        [self.scrollView setContentOffset:scrollPoint animated:YES];
+    }
+    
+}
+
+- (void)keyboardWillBeHidden:(NSNotification *)notification {
+    [self.scrollView setContentOffset:CGPointZero animated:YES];
 }
 
 /*
